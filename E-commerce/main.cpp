@@ -197,6 +197,10 @@ void addProducts()
             prodCol.addItem(product);
             prodCol.saveProductToFile(PRODUCT_FILE);
         }
+        else
+        {
+            cout << "Failed to read product details. Please try again.\n";
+        }
     }
 }
 
