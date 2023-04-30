@@ -135,6 +135,7 @@
     <ClCompile Include="ProductCollection.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="UserCollection.cpp" />
+    <ClCompile Include="Wishlist.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cart.hpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="ProductCollection.hpp" />
     <ClInclude Include="User.hpp" />
     <ClInclude Include="UserCollection.hpp" />
+    <ClInclude Include="Wishlist.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Order List.txt" />

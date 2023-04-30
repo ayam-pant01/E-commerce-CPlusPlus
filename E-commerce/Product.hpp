@@ -33,5 +33,9 @@ class Product {
         int read();
         void print() const;
         string printStr() const;
+        // define the operator< for sorting items in the std::set
+        bool operator<(const Product& other) const {
+            return id < other.id;
+        }
 };
 #endif // PRODUCT_HPP
