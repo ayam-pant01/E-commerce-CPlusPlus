@@ -1,5 +1,6 @@
 #include "Wishlist.hpp"
 
+//  // New For Phase 2 // Wishlist class that uses Set data structure//
 Wishlist::Wishlist() {}
 
 Wishlist::~Wishlist() {}

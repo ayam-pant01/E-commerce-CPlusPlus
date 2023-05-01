@@ -463,9 +463,9 @@ void processPayment()
 void processOrder()
 {
 	currentOrderList.addOrder(currentUser->getID(), *cart, cart->getTotalCost(), time(0));
-	//currentOrderList.printOrderCollection(0,currentUser->getID());
-	 //currentOrderList.saveOrderToFile(ORDER_FILE);
-	cart = new Cart();
+	currentOrderList.printOrderCollection(0,currentUser->getID());
+	currentOrderList.saveOrderToFile(ORDER_FILE);
+	cart->clearCart();
 	//// Save order list.
 	//// order class should have user id, and cart list.
 }
@@ -475,6 +475,7 @@ void viewOrder(bool isBoss, int userId)
 	currentOrderList.printOrderCollection(isBoss, userId);
 }
 
+//  // New For Phase 2 // Methods to add and remove from wishlsit//
 void addToWishList() {
 
 	string name;

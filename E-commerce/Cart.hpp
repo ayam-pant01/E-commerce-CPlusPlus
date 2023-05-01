@@ -19,6 +19,7 @@ private:
 
 public:
     Cart();
+    Cart(const Cart& other); // Copy constructor
     ~Cart();
     void addItem(const Product& product);
     void removeItem(int id);

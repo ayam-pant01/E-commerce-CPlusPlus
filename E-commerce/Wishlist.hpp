@@ -4,6 +4,7 @@
 #include "Product.hpp"
 #include <set>
 
+//  // New For Phase 2 // Wishlist class that uses Set data structure//
 class Wishlist {
 public:
     Wishlist();

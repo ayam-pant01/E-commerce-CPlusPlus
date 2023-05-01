@@ -2,11 +2,18 @@
 #include "Order.hpp"
 #include <iostream>
 
+//Order::Order(int id, int userId, const Cart& cart, double totalCost, time_t timePlaced)
+//    : id(id), userId(userId), cart(cart), totalCost(totalCost), timePlaced(timePlaced)
+//{
+//
+//}
+
 Order::Order(int id, int userId, const Cart& cart, double totalCost, time_t timePlaced)
     : id(id), userId(userId), cart(cart), totalCost(totalCost), timePlaced(timePlaced)
 {
-
 }
+
+
 
 Order::Order(int id, int userId, double totalCost, time_t timePlaced) :
     id(id), userId(userId), totalCost(totalCost), timePlaced(timePlaced), cart()

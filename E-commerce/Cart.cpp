@@ -8,6 +8,19 @@ Cart::Cart()
     totalCost = 0.0;
 }
 
+Cart::Cart(const Cart& other) : head(nullptr), itemCount(0), totalCost(0.0)
+{
+    Node* current = other.head;
+    while (current != nullptr)
+    {
+        addItem(current->data);
+        current = current->next;
+    }
+}
+
+
+
+
 Cart::~Cart()
 {
     Node* current = head;
@@ -85,8 +98,15 @@ double Cart::getTotalCost() const
 
 void Cart::clearCart()
 {
+    Node* current = head;
+    while (current != nullptr)
+    {
+        Node* next = current->next;
+        delete current;
+        current = next;
+    }
     itemCount = 0;
     totalCost = 0.0;
-    delete head;
     head = nullptr;
 }
+
