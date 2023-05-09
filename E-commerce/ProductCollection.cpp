@@ -64,18 +64,17 @@ Product* ProductCollection::getItemById(int id) const
 
 ProductCollection::Node* ProductCollection::find(Node* node, int id) const
 {
-    if (node == nullptr || node->data.getID() == id)
-    {
+    if (node == nullptr) {
+        return nullptr;
+    }
+    Node* foundNode = find(node->left, id);
+    if (foundNode != nullptr) {
+        return foundNode;
+    }
+    if (node->data.getID() == id) {
         return node;
     }
-    else if (id < node->data.getID())
-    {
-        return find(node->left, id);
-    }
-    else
-    {
-        return find(node->right, id);
-    }
+    return find(node->right, id);
 }
 
 Product* ProductCollection::getItemByName(const string& name) const
