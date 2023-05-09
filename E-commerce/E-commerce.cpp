@@ -7,10 +7,12 @@
 #include "Cart.hpp"
 #include "Order.hpp"
 #include "Wishlist.hpp"
+#include "DiscountSystem.hpp"
 
 #define PRODUCT_FILE "Product List.txt"
 #define USER_FILE "User List.txt"
 #define ORDER_FILE "Order List.txt"
+#define Discount_FILE "Discount List.txt"
 
 using namespace std;
 void printEcommerceFeatures();
@@ -26,6 +28,7 @@ void processOrder();
 void viewOrder(bool isBoss, int userId);
 void addToWishList();
 void removeFromWishList();
+void addDiscountToProduct();
 
 void userManagement();
 void productManagement();
@@ -35,6 +38,7 @@ ProductCollection prodCol(PRODUCT_FILE);
 Cart* cart;
 OrderCollection currentOrderList(ORDER_FILE);
 Wishlist wishlist;
+DiscountSystem discountCollection(Discount_FILE);
 
 int main()
 {
@@ -321,6 +325,8 @@ void productManagement()
 			cout << "3. Search product\n";
 			cout << "4. Sort products by name\n";
 			cout << "5. Sort products by cost\n";
+			cout << "6. Add product discount\n";
+			cout << "7. View product discount\n";
 			cout << "0. Exit product management\n";
 			cout << "Enter your choice (1-5): ";
 		}
@@ -337,7 +343,7 @@ void productManagement()
 			cout << "Enter your choice (0-7): ";
 		}
 		cin >> choice;
-		if (isBoss && choice > 5)
+		if (isBoss && choice > 7)
 			choice = -1;
 
 		switch (choice)
@@ -383,13 +389,38 @@ void productManagement()
 			cout << "\nProducts sorted by cost.\n";
 			break;
 		case 6:
-			cout << "\nProceeding to cart...\n";
-			displayCart();
+			if (isBoss) {
+				cout << "\nDiscount Management Menu...\n";
+				addDiscountToProduct();
+			}
+			else {
+				cout << "\nProceeding to cart...\n";
+				displayCart();
+			}
 			break;
 		case 7:
-			cout << "\Checkout Menu...\n";
-			displayCart();
-			checkOutMenu();
+			if (isBoss) {
+				cout << "\Listing Product discounts...\n";
+				int discontSize = discountCollection.getAllDiscounts().size();
+				if (discontSize > 0) {
+
+					cout << "Product Name\tDiscount Amount\n";
+					for (const auto& pair : discountCollection.getAllDiscounts()) {
+						int productId = pair.first;
+						double discount = pair.second;
+						Product* discItem = prodCol.getItemById(productId);
+						cout << discItem->getName() << "\t\t" << discount << "\n";
+					}
+				}
+				else {
+					cout << "No discount listed!\n";
+				}
+			}
+			else {
+				cout << "\Checkout Menu...\n";
+				displayCart();
+				checkOutMenu();
+			}
 			break;
 		case 8:
 			addToWishList();
@@ -505,6 +536,39 @@ void removeFromWishList() {
 	}
 	else {
 		cout << "\nProduct not in wishlist.\n";
+	}
+}
+
+
+void addDiscountToProduct() {
+	// Print all products
+	prodCol.printAllItems();
+
+	// Get user input for product name and discount amount
+	string productName;
+	double discountAmount;
+
+	cout << "Enter the name of the product to add a discount: ";
+	cin >> productName;
+
+	Product* discountItem = prodCol.getItemByName(productName);
+	if (discountItem == NULL)
+	{
+		cout << "\nProduct not found.\n";
+		return;
+	}
+
+	cout << "Enter the discount amount (as a decimal): ";
+	cin >> discountAmount;
+
+	// Add discount to the DiscountSystem unordered_map
+	if (prodCol.getItemByName(productName)) {
+		discountCollection.addDiscount(discountItem->getID(), discountAmount);
+		discountCollection.saveToFileTsv(Discount_FILE);
+		cout << "Discount added successfully!" << endl;
+	}
+	else {
+		cout << "Invalid product name. Please try again." << endl;
 	}
 }
 
