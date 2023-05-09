@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cart.cpp" />
+    <ClCompile Include="DiscountSystem.cpp" />
     <ClCompile Include="E-commerce.cpp" />
     <ClCompile Include="Order.cpp" />
     <ClCompile Include="OrderCollection.cpp" />
@@ -139,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cart.hpp" />
+    <ClInclude Include="DiscountSystem.hpp" />
     <ClInclude Include="Order.hpp" />
     <ClInclude Include="OrderCollection.hpp" />
     <ClInclude Include="Product.hpp" />
