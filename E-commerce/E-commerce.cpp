@@ -260,6 +260,13 @@ void addToCart()
 	}
 	Product itemRef = *cartItem;
 	itemRef.setQuantity(quantity);
+	//see if the product has a discount amount. Set amount after discount.
+	double discAmnt = discountCollection.getDiscount(itemRef.getID());
+	if (discAmnt > 0) {
+		cout << "Discount of $" << discAmnt << " applied to the item.\n";
+		double discountedPrice = round((itemRef.getCost() - discAmnt) * 100) / 100;
+		itemRef.setCost(discountedPrice);
+	};
 	// Add the product to the user's cart
 	cart->addItem(itemRef);
 	cout << "\n" << quantity << " " << cartItem->getName() << " added to cart.\n";

@@ -95,7 +95,7 @@ string Product::printStr() const
     stream << fixed << setprecision(2) << cost;
     string costStr = stream.str();
     string printStr = to_string(id) + "\t" + name + "\t" + costStr + "\t" + to_string(quantity);
-    cout << "Formatted string: " << printStr << endl; // add this line
+   // cout <<"\t" << printStr << endl; // add this line
 
     return printStr;
 }

@@ -314,7 +314,6 @@ void OrderCollection::printOrderCollection(bool isBoss, int userId)
 				cout << curr->data.getID() << '\t' << curr->data.getUserId() << '\t' << curr->data.getTotalCost() << '\t' << curr->data.getTimePlaced() << endl;
 				// Write cart item details with "C"
 
-				cout << "----222-----" << endl;
 				Cart* cart = curr->data.getCart();
 				Cart::Node* cartNode = cart->getHeadNode();
 
