@@ -23,7 +23,7 @@ private:
 public:
     OrderCollection(const string& filename);
     ~OrderCollection();
-    void addOrder(int userId, const Cart& cart, double totalCost, time_t timePlaced);
+    Order addOrder(int userId, const Cart& cart, double totalCost, time_t timePlaced);
     void addExistingOrder(int id,int userId,const Cart& cart, double totalCost, time_t timePlaced);
     Order* getOrder(int id);
     Order* getLatestOrder(int userId);

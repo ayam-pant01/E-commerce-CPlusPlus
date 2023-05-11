@@ -45,14 +45,11 @@
     <ClCompile Include="DiscountSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OrderHistory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Product.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="User.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Wishlist.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,6 +69,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Cart.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Product.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="User.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OrderHistory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

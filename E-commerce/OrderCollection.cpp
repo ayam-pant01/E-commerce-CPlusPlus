@@ -32,6 +32,7 @@ void OrderCollection::addNodeToFront(const Order& order)
 	}
 	head = newNode;
 	++itemCount;
+	++nextID;
 }
 
 void OrderCollection::addNodeToEnd(const Order& order)
@@ -48,9 +49,10 @@ void OrderCollection::addNodeToEnd(const Order& order)
 		tail = newNode;
 	}
 	++itemCount;
+	++nextID;
 }
 
-void OrderCollection::addOrder(int userId, const Cart& cart, double totalCost, time_t timePlaced)
+Order OrderCollection::addOrder(int userId, const Cart& cart, double totalCost, time_t timePlaced)
 {
 	int id = nextID;
 	Order order(id, userId, cart, totalCost, timePlaced);
@@ -89,56 +91,10 @@ void OrderCollection::addOrder(int userId, const Cart& cart, double totalCost, t
 		current->next = newNode;
 		newNode->prev = current;
 		++itemCount;
+		++nextID;
 	}
+	return order;
 }
-
-
-//void OrderCollection::addOrder(int userId, const Cart& cart, double totalCost, time_t timePlaced)
-//{
-//    int id = nextID;
-//    Order order(id, userId, cart, totalCost, timePlaced);
-//    if (head == nullptr)
-//    {
-//        addNodeToFront(order);
-//        tail = head;
-//    }
-//    else if (order.getTimePlaced() >= head->data.getTimePlaced())
-//    {
-//        addNodeToFront(order);
-//    }
-//    else if (order.getTimePlaced() <= tail->data.getTimePlaced())
-//    {
-//        addNodeToEnd(order);
-//    }
-//    else
-//    {
-//        Node* current = head;
-//        while (current->next != nullptr && current->next->data.getTimePlaced() >= order.getTimePlaced())
-//        {
-//            current = current->next;
-//        }
-//        Node* newNode = new Node(order);
-//        newNode->next = current->next;
-//        current->next->prev = newNode;
-//        current->next = newNode;
-//        newNode->prev = current;
-//        ++itemCount;
-//        delete newNode;
-//    }
-//    Cart::Node* cartNode = order.getCart()->getHeadNode(); // get head node of cart linked list
-//    Node* current = head;
-//    cout << "Item Detail :" << endl;
-//    cout <<"\tId\tName\tCost\tQuantity" << endl;
-//    while (cartNode != nullptr)
-//    {
-//
-//        cout << "\t" << cartNode->data.printStr() << endl;
-//        cartNode = cartNode->next;
-//    }
-//    delete cartNode;
-//
-//    ++nextID;
-//}
 
 void OrderCollection::addExistingOrder(int id, int userId, const Cart& cart, double totalCost, time_t timePlaced)
 {
@@ -277,12 +233,12 @@ void OrderCollection::saveOrderToFile(const string& filename) const
 		outfile << "O\t" << curr->data.getID() << '\t' << curr->data.getUserId() << '\t' << curr->data.getTotalCost() << '\t' << curr->data.getTimePlaced() << endl;
 	}
 
-	cout << "Orders saved to file " << filename << endl;
 	outfile.close();
 }
 
 void OrderCollection::printOrderCollection(bool isBoss, int userId)
 {
+	bool found = false;
 	for (Node* curr = head; curr != nullptr; curr = curr->next)
 	{
 		if (isBoss)
@@ -303,6 +259,7 @@ void OrderCollection::printOrderCollection(bool isBoss, int userId)
 				cout << "\t" << cartNode->data.printStr() << endl;
 				cartNode = cartNode->next;
 			}
+			found = true;
 
 		}
 		else
@@ -324,12 +281,12 @@ void OrderCollection::printOrderCollection(bool isBoss, int userId)
 					cout << "\t" << cartNode->data.printStr() << endl;
 					cartNode = cartNode->next;
 				}
-			}
-			else
-			{
-				cout << "No order found for current user.\n";
+				found = true;
 			}
 		}
+	}
+	if (head == nullptr || found == false) {
+		cout << "No order found!!\n";
 	}
 }
 

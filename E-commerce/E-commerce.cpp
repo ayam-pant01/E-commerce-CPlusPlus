@@ -8,11 +8,13 @@
 #include "Order.hpp"
 #include "Wishlist.hpp"
 #include "DiscountSystem.hpp"
+#include "OrderHistory.hpp"
 
 #define PRODUCT_FILE "Product List.txt"
 #define USER_FILE "User List.txt"
 #define ORDER_FILE "Order List.txt"
 #define Discount_FILE "Discount List.txt"
+#define OrderHistory_FILE "OrderHistory List.txt"
 
 using namespace std;
 void printEcommerceFeatures();
@@ -39,6 +41,7 @@ Cart* cart;
 OrderCollection currentOrderList(ORDER_FILE);
 Wishlist wishlist;
 DiscountSystem discountCollection(Discount_FILE);
+OrderHistory orderHistory(OrderHistory_FILE);
 
 int main()
 {
@@ -72,10 +75,11 @@ void showMenu()
 		{
 			cout << "1. User management\n";
 			cout << "2. Product management\n";
-			cout << "3. View Orders\n";
-			cout << "4. Login as different user\n";
+			cout << "3. View Order Details\n";
+			cout << "4. View Order History\n";
+			cout << "5. Login as different user\n";
 			cout << "0. Exit program\n";
-			cout << "Enter your choice (0-4): ";
+			cout << "Enter your choice (0-5): ";
 			cin >> choice;
 
 			switch (choice)
@@ -89,11 +93,12 @@ void showMenu()
 				productManagement();
 				break;
 			case 3:
-				// Product management
-				cout << "\nDisplaying orders for logged in user....\n";
 				viewOrder(1, loggedInUserId);
 				break;
 			case 4:
+				orderHistory.printByUserId(1, loggedInUserId);
+				break;
+			case 5:
 				// Product management
 				login();
 				break;
@@ -107,11 +112,12 @@ void showMenu()
 		else if (loggedInUserId > 0)
 		{
 			cout << "1. Start Shopping\n";
-			cout << "2. View Orders\n";
-			cout << "3. View Wishlist\n";
-			cout << "4. Remove from Wishlist\n";
-			cout << "0. Exit program\n";
-			cout << "Enter your choice (0-4): ";
+			cout << "2. View Order Details\n";
+			cout << "3. View Order History\n";
+			cout << "4. View Wishlist\n";
+			cout << "5. Remove from Wishlist\n";
+			cout << "0. Login as different user\n";
+			cout << "Enter your choice (0-5): ";
 			cin >> choice;
 
 			switch (choice)
@@ -120,19 +126,21 @@ void showMenu()
 				productManagement();
 				break;
 			case 2:
-				cout << "\nDisplaying orders for logged in user....\n";
 				viewOrder(0, loggedInUserId);
 				break;
 			case 3:
+				orderHistory.printByUserId(0, loggedInUserId);
+				break;
+			case 4:
 				cout << "\nDisplaying wishlist for logged in user....\n";
 				wishlist.printAllItems();
 				break;
-			case 4:
+			case 5:
 				removeFromWishList();
 				break;
 			case 0:
-				cout << "\nExiting...\n";
-				return;
+				login();
+				break;
 			default:
 				cout << "\nInvalid choice. Please try again.\n";
 			}
@@ -500,9 +508,12 @@ void processPayment()
 
 void processOrder()
 {
-	currentOrderList.addOrder(currentUser->getID(), *cart, cart->getTotalCost(), time(0));
+	Order newOrder = currentOrderList.addOrder(currentUser->getID(), *cart, cart->getTotalCost(), time(0));
+	Order newOrderWithoutCart = Order(newOrder.getID(), newOrder.getUserId(), newOrder.getTotalCost(), newOrder.getTimePlaced());
+	orderHistory.insert(newOrder.getID(), newOrder.getUserId(), newOrder.getTotalCost(), newOrder.getTimePlaced());
 	currentOrderList.printOrderCollection(0,currentUser->getID());
 	currentOrderList.saveOrderToFile(ORDER_FILE);
+	orderHistory.saveOrderHistoryToFile(OrderHistory_FILE);
 	cart->clearCart();
 	//// Save order list.
 	//// order class should have user id, and cart list.
